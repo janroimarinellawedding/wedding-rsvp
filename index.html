@@ -299,31 +299,29 @@
         });
     });
 
-    // Handle form submission (The FIX is in this block)
-    document.getElementById('rsvpForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // 1. Get the form data correctly using FormData
-        const formData = new FormData(this);
-        const params = new URLSearchParams(formData);
+document.getElementById('rsvpForm').addEventListener('submit', e => {
+  e.preventDefault();
+  
+  const formData = new FormData(e.target);
 
-        fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: params
-        })
-        .then(response => response.text())
-        .then(result => {
-            console.log('Server response:', result);
-            document.getElementById('successModal').classList.remove('hidden');
-            document.getElementById('successModal').classList.add('flex');
-            document.getElementById('rsvpForm').reset();
-            document.getElementById('guestSection').classList.add('hidden');
-        })
-        .catch(error => {
-            console.error('Submission Error:', error);
-            alert('An error occurred while submitting the form.');
-        });
-    });
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.text())
+  .then(text => {
+    console.log('Server replied:', text);
+    document.getElementById('successModal').classList.remove('hidden');
+    document.getElementById('successModal').classList.add('flex');
+    e.target.reset();
+    document.getElementById('guestSection').classList.add('hidden');
+  })
+  .catch(err => {
+    console.error('Submission error:', err);
+    alert('Error submitting form. See console.');
+  });
+});
+
 
     function closeModal() {
         document.getElementById('successModal').classList.add('hidden');
@@ -375,6 +373,7 @@
 </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9772834cb740bc3f',t:'MTc1NjUzODI5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
